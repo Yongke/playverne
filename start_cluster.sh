@@ -18,9 +18,11 @@ function killdocker {
 ## graphite
 i=2
 killdocker $i
+mkdir -pv `pwd`/data
 docker run -d --name ${DOCKERNAMEPREFIX}${i} --net=${NET} --ip=${IPPREFIX}.${i} \
-    -p 8080:80 \
-    hopsoft/graphite-statsd
+    -v `pwd`/data:/data -p 3000:3000 -p 8080:80 \
+    samsaffron/graphite
+sudo cp grafana.db `pwd`/data/grafana/
 
 ## vernemq discovery node
 i=3
